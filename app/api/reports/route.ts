@@ -18,8 +18,8 @@ export async function GET(req: Request) {
 
     // Build the where clause based on filters
     const where = {
-      ...(status && { status }),
-      ...(type && { type }),
+      ...(status && { status }), // Only include status if it's not null
+      ...(type && { type }), // Only include type if it's not null
     };
 
     // Add timeout and retry logic
@@ -42,11 +42,11 @@ export async function GET(req: Request) {
           status: true,
           createdAt: true,
           updatedAt: true,
-        },
-      }),
+        }, // Only select the fields we need
+      }), // Fetch reports
       new Promise((_, reject) =>
         setTimeout(() => reject(new Error("Database timeout")), 15000)
-      ),
+      ), // Timeout after 15 seconds
     ]);
 
     return NextResponse.json(reports);
@@ -58,14 +58,14 @@ export async function GET(req: Request) {
       return NextResponse.json(
         { error: "Cannot connect to database. Please try again later." },
         { status: 503 }
-      );
-    }
+      ); // Service Unavailable
+    } 
 
     if (error.code === "P2024") {
       return NextResponse.json(
         { error: "Database connection timeout. Please try again." },
         { status: 504 }
-      );
+      ); // Gateway Timeout
     }
 
     return NextResponse.json(
