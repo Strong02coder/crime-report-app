@@ -71,7 +71,7 @@ export async function GET(req: Request) {
     return NextResponse.json(
       { error: "Failed to fetch reports" },
       { status: 500 }
-    );
+    ); // Internal Server Error
   } finally {
     // Optional: Disconnect for serverless environments
     if (process.env.VERCEL) {
