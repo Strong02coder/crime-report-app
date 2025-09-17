@@ -36,6 +36,7 @@ export default function SignUp() {
           name: formData.name,
           email: formData.email,
           password: formData.password,
+          role: "USER",
         }),
       });
 

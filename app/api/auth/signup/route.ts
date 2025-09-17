@@ -43,7 +43,7 @@ export async function POST(request: Request) {
     const { password: _, ...userWithoutPassword } = user;
 
     return NextResponse.json(userWithoutPassword, { status: 201 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Signup error:", error);
     return NextResponse.json({ error: "Error creating user" }, { status: 500 });
   }
