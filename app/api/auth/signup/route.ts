@@ -40,7 +40,8 @@ export async function POST(request: Request) {
     });
 
     // Remove password from response
-    const { password: _, ...userWithoutPassword } = user;
+    const { password: _password, ...userWithoutPassword } = user;
+    void _password; // Explicitly mark as intentionally unused
 
     return NextResponse.json(userWithoutPassword, { status: 201 });
   } catch (error: unknown) {
