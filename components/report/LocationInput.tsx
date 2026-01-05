@@ -1,6 +1,11 @@
-
 import { useState } from "react";
 import { AddressAutofill } from "@mapbox/search-js-react";
+
+// Cast to work around React 18 type compatibility issue
+const AddressAutofillComponent = AddressAutofill as unknown as React.FC<{
+  accessToken: string;
+  children: React.ReactNode;
+}>;
 
 interface LocationInputProps {
   value: string;
@@ -76,7 +81,7 @@ export function LocationInput({
         Location
       </label>
       <div className="relative">
-        <AddressAutofill
+        <AddressAutofillComponent
           accessToken={process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN || ""}
         >
           <input
@@ -86,10 +91,10 @@ export function LocationInput({
             onChange={(e) => onChange(e.target.value)}
             placeholder="Enter location or use pin"
             className="w-full rounded-xl bg-zinc-900/50 border border-zinc-800 pl-4 pr-12 py-3.5
-                     text-white transition-colors duration-200
-                     focus:outline-none focus:ring-2 focus:ring-sky-500/40"
+                       text-white transition-colors duration-200
+                       focus:outline-none focus:ring-2 focus:ring-sky-500/40"
           />
-        </AddressAutofill>
+        </AddressAutofillComponent>
         <button
           type="button"
           onClick={getLocation}
